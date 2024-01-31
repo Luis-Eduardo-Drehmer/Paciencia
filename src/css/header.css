@@ -20,7 +20,7 @@
     margin-left: 20px;
 }
 .header .logo:hover,
-.header nav li:hover{
+.header nav a:hover {
     background-color: var(--cor-primaria-escura);
 }
 
@@ -32,7 +32,8 @@
 .header nav ul{
     display: flex;
 }
-.header  nav li {
+
+.header  nav a {
     margin: 10px;
     font-size: 2rem;
     background-color: var(--cor-secundaria);
@@ -51,6 +52,7 @@
     height: 60px;
     align-self: flex-end;
 }
+
 .header nav label {
     display: flex;
     flex-direction: column;

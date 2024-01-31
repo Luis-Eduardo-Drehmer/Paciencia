@@ -8,8 +8,9 @@
 
     <link rel="stylesheet" href="src/css/reset.css">
     <link rel="stylesheet" href="src/css/style.css">
-    <link rel="stylesheet" href="src/css/header.css">
     <link rel="stylesheet" href="src/css/variaveis.css">
+    <link rel="stylesheet" href="src/css/header.css">
+    <link rel="stylesheet" href="src/css/game.css">
     <link rel="stylesheet" href="src/css/footer.css">
 </head>
 
@@ -26,42 +27,55 @@
                 </div>
             </label>
             <ul>
-                <li><a href="#">Jogo </a></li>
+                <li><a href="#jogo">Jogo </a></li>
                 <li><a href="#">Regras </a></li>
                 <li><a href="#">Contato </a></li>
             </ul>
         </nav>
     </header>
-    <section class="jogo">
-        <div class="carta" id="carta">
-            <img src="https://deckofcardsapi.com/static/img/back.png" alt="">
-        </div>
-<!-- 
-        <div class="button" id="botao">
-            <p>nova carta</p>
-        </div>
-        <script type="module" src="src/scripts/index.js"></script> -->
-    </section>
-    <section class="regras">
+    <section class="jogo" id="jogo">
 
+        <div class="pilhas-ordenadas">
+            <div class="compra-descarte">
+                <div class="pilha-cartas"><div></div></div>
+                <div class="pilha-cartas"><div></div></div>
+            </div>
+            <div class="cartas-ordenadas">
+                <div class="pilha-cartas"><div></div></div>
+                <div class="pilha-cartas"><div></div></div>
+                <div class="pilha-cartas"><div></div></div>
+                <div class="pilha-cartas"><div></div></div>
+            </div>
+        </div>
+        <div class="pilhas-embaralhadas">
+            <div class="pilha-cartas"><div></div></div>
+            <div class="pilha-cartas"><div></div></div>
+            <div class="pilha-cartas"><div></div></div>
+            <div class="pilha-cartas"><div></div></div>
+            <div class="pilha-cartas"><div></div></div>
+            <div class="pilha-cartas"><div></div></div>
+            <div class="pilha-cartas"><div></div></div>
+        </div>
     </section>
+    <!-- <section class="regras">
+
+    </section> -->
     <footer class="footer">
-            <h2>Me envie uma mensagem!</h2>
-            <div class="redes-sociais">
-                <a href="https://www.linkedin.com/in/luis-eduardo-drehmer-818303228/" target="_blank"
-                    class="outer-shadow">
-                    <i class="fab fa-linkedin"></i>
-                </a>
-                <a href="https://wa.me/5547992489087" target="_blank" class="outer-shadow">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <a href="https://github.com/Luis-Eduardo-Drehmer" target="_blank" class="outer-shadow">
-                    <i class="fab fa-github"></i>
-                </a>
-                <a href="https://www.instagram.com/luisdrehmer/" target="_blank" class="outer-shadow">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </div>        
+        <h2>Me envie uma mensagem!</h2>
+        <div class="redes-sociais">
+            <a href="https://www.linkedin.com/in/luis-eduardo-drehmer-818303228/" target="_blank" class="outer-shadow">
+                <i class="fab fa-linkedin"></i>
+            </a>
+            <a href="https://wa.me/5547992489087" target="_blank" class="outer-shadow">
+                <i class="fab fa-whatsapp"></i>
+            </a>
+            <a href="https://github.com/Luis-Eduardo-Drehmer" target="_blank" class="outer-shadow">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.instagram.com/luisdrehmer/" target="_blank" class="outer-shadow">
+                <i class="fab fa-instagram"></i>
+            </a>
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"
