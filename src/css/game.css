@@ -38,6 +38,7 @@
     margin: 0 10px;
     border-radius: 10px;
     border: 2px solid black;
+    background-size: contain;
 
 }
 .jogo .pilha-cartas div{

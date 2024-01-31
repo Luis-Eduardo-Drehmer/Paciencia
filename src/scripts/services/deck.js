@@ -11,5 +11,7 @@ async function getCard(deckID,quantidadeCartasPuxar){
     return await response.json();
 }
 
+
+
 export { getDeck, getCard }
 
