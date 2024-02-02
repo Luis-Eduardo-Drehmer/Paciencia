@@ -1,4 +1,4 @@
-import { baseUrl, quantidadeDecks } from "/src/scripts/variaveis.js"
+import { baseUrl, quantidadeDecks } from "../variaveis.js"
 
 
 async function getDeck() {
