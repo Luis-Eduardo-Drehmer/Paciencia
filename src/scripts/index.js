@@ -25,6 +25,8 @@ exibirCarta(pilhasCartaHTML, pilhasCartas);
 
 atualizarCartaTop(pilhasCartasComprarHTML, 0);
 
+pilhasCartasComprarHTML[0].addEventListener("click", comprarCarta);
+
 console.log(pilhasCartasOrdenadasHTML);
 console.log(pilhasCartaHTML);
 console.log(pilhasCartasComprarHTML);
@@ -61,6 +63,8 @@ function exibirCarta(ArrayPilhasHTML, ArrayPilhaCartas) {
 function atualizarCartaTop(ArrayPilhasHTML, numPilha, ArrayPilhaCartas) {
     if (ArrayPilhaCartas === undefined) {
         ArrayPilhasHTML[numPilha].style.backgroundImage = `url(${urlCartaFundo})`;
+    } else if (ArrayPilhaCartas[numPilha].length === 0) {
+        ArrayPilhasHTML[numPilha].style.backgroundImage = "url()"
     } else {
         ArrayPilhasHTML[numPilha].style.backgroundImage = `url(${ArrayPilhaCartas[numPilha][ArrayPilhaCartas[numPilha].length - 1].images.png})`;
     }
@@ -71,6 +75,19 @@ function pegarPilhas(ArrayPilhasHTML, quantidade, stringID) {
         let pilhaHTML = document.getElementById(`${stringID}${index}`)
         ArrayPilhasHTML.push(pilhaHTML);
     }
+}
+
+function comprarCarta() {
+    if (pilhaCompra[0].length > 0) {
+        pilhaCompra[1].push(pilhaCompra[0].shift());
+        if (pilhaCompra[0].length === 0) {
+            atualizarCartaTop(pilhasCartasComprarHTML, 0, pilhaCompra)
+        }
+    } else {    
+        pilhaCompra[0] = pilhaCompra[1].splice(0, pilhaCompra[1].length);
+        atualizarCartaTop(pilhasCartasComprarHTML, 0)
+    }
+    atualizarCartaTop(pilhasCartasComprarHTML, 1, pilhaCompra)
 }
 
 async function separarPilhas() {
