@@ -34,7 +34,6 @@ pilhasCartasComprarHTML[1].addEventListener("dblclick", enviarCartaPilhaOrdenada
 addEventListener(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
 // pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
 
-
 console.log(pilhasCartasOrdenadasHTML);
 console.log(pilhasCartaHTML);
 console.log(pilhasCartasComprarHTML);
@@ -122,10 +121,14 @@ function addEventListener(ArrayPilhasHTM, tipo, func) {
         ArrayPilhasHTM[index][ArrayPilhasHTM[index].length - 1].addEventListener(tipo, func);
     }
 }
-function enviarCartaPilhaOrdenadaPilhas() {
-    for (let index = 0; index < pilhasCartasMostradasHTML.length; index++) {
-        let posX = pilhasCartasMostradasHTML[index].length - 1;
+function enviarCartaPilhaOrdenadaPilhas() {    
+    for (let index = 0; index < pilhasCartasMostradasHTML.length; index++) {   
+          
+        let posX = pilhasCartasMostradasHTML[index].length - 1;        
         if (pilhasCartasMostradasHTML[index][posX] === this) {
+            if (pilhasCartas[index].length === 0) {
+                return;
+            }
             for (let y = 0; y < pilhasOrdenadasControle.length; y++) {
                 if (pilhasCartas[index][pilhasCartas[posX].length - 1].code[1] === pilhasOrdenadasControle[y].tipoCarta) {
                     if (pilhasCartas[index][pilhasCartas[posX].length - 1].code[0] === pilhasOrdenadasControle[y].valorAtual) {
@@ -135,27 +138,37 @@ function enviarCartaPilhaOrdenadaPilhas() {
                         pilhasOrdenadasControle[y].addCarta(pilhasOrdenadasControle[y].valorAtual);
                         console.log(pilhasOrdenadasControle);
                         //n tem filho condiçao criar
-                        pilhasCartasMostradasHTML[index][posX - 1].removeChild(this);
-                        pilhasCartasMostradasHTML[index].pop();
-                        console.log(pilhasCartasMostradasHTML);
-                        pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
+                        if (pilhasCartasMostradasHTML[index][0].children.length === 0) {
+                            pilhasCartasMostradasHTML[index][0].style.backgroundImage = `url()`;
+                        } else {
+                            pilhasCartasMostradasHTML[index][posX - 1].removeChild(this);
+                            pilhasCartasMostradasHTML[index].pop();
+                            console.log(pilhasCartasMostradasHTML);
+                            pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
+
+                        }
                     }
                 }
             }
         }
     }
 }
+
 function enviarCartaPilhaOrdenadaComprar() {
+    if (pilhaCompra[1].length === 0) {
+        return;
+    }
     for (let y = 0; y < pilhasOrdenadasControle.length; y++) {
         if (pilhaCompra[1][pilhaCompra[1].length - 1].code[1] === pilhasOrdenadasControle[y].tipoCarta) {
             if (pilhaCompra[1][pilhaCompra[1].length - 1].code[0] === pilhasOrdenadasControle[y].valorAtual) {
                 pilhasCartasOrdenadasHTML[y].style.backgroundImage = `url(${pilhaCompra[1][pilhaCompra[1].length - 1].images.png})`;
                 pilhaCompra[1].pop();
-                console.log(pilhaCompra);
-                pilhasCartasComprarHTML[1].style.backgroundImage = `url(${pilhaCompra[1][pilhaCompra[1].length - 1].images.png})`;
+                if (pilhaCompra[1].length > 0) {
+                    pilhasCartasComprarHTML[1].style.backgroundImage = `url(${pilhaCompra[1][pilhaCompra[1].length - 1].images.png})`;
+                } else {
+                    pilhasCartasComprarHTML[1].style.backgroundImage = `url()`;
+                }
                 pilhasOrdenadasControle[y].addCarta(pilhasOrdenadasControle[y].valorAtual);
-                console.log(pilhasOrdenadasControle);
-                //n tem filho condiçao criar
             }
         }
     }
