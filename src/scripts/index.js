@@ -31,7 +31,7 @@ criandoNaips(["C", "H", "S", "D"]);
 
 pilhasCartasComprarHTML[0].addEventListener("click", comprarCarta);
 pilhasCartasComprarHTML[1].addEventListener("dblclick", enviarCartaPilhaOrdenadaComprar);
-addEventListener(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
+addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
 // pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
 
 console.log(pilhasCartasOrdenadasHTML);
@@ -116,15 +116,15 @@ function criandoNaips(nipes) {
     }
 
 }
-function addEventListener(ArrayPilhasHTM, tipo, func) {
+function addEventListenerHTML(ArrayPilhasHTM, tipo, func) {
     for (let index = 0; index < ArrayPilhasHTM.length; index++) {
         ArrayPilhasHTM[index][ArrayPilhasHTM[index].length - 1].addEventListener(tipo, func);
     }
 }
-function enviarCartaPilhaOrdenadaPilhas() {    
-    for (let index = 0; index < pilhasCartasMostradasHTML.length; index++) {   
-          
-        let posX = pilhasCartasMostradasHTML[index].length - 1;        
+function enviarCartaPilhaOrdenadaPilhas() {
+    for (let index = 0; index < pilhasCartasMostradasHTML.length; index++) {
+
+        let posX = pilhasCartasMostradasHTML[index].length - 1;
         if (pilhasCartasMostradasHTML[index][posX] === this) {
             if (pilhasCartas[index].length === 0) {
                 return;
@@ -137,7 +137,6 @@ function enviarCartaPilhaOrdenadaPilhas() {
                         console.log(pilhasCartas);
                         pilhasOrdenadasControle[y].addCarta(pilhasOrdenadasControle[y].valorAtual);
                         console.log(pilhasOrdenadasControle);
-                        //n tem filho condiçao criar
                         if (pilhasCartasMostradasHTML[index][0].children.length === 0) {
                             pilhasCartasMostradasHTML[index][0].style.backgroundImage = `url()`;
                         } else {
@@ -145,7 +144,7 @@ function enviarCartaPilhaOrdenadaPilhas() {
                             pilhasCartasMostradasHTML[index].pop();
                             console.log(pilhasCartasMostradasHTML);
                             pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
-
+                            pilhasCartasMostradasHTML[index][pilhasCartasMostradasHTML[index].length - 1].addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
                         }
                     }
                 }
@@ -153,7 +152,6 @@ function enviarCartaPilhaOrdenadaPilhas() {
         }
     }
 }
-
 function enviarCartaPilhaOrdenadaComprar() {
     if (pilhaCompra[1].length === 0) {
         return;
@@ -173,11 +171,14 @@ function enviarCartaPilhaOrdenadaComprar() {
         }
     }
 }
-// function selecionarCarta(){
-//     if(this.style.backgroundImage !== ""){
-//         this.classList.toggle("selecionado");
-//     }
-// }
+
+
+
+function selecionarCarta() {
+    if (this.style.backgroundImage !== "") {
+        this.classList.toggle("selecionado");
+    }
+}
 
 async function separarPilhas() {
     let interacao = 1;
