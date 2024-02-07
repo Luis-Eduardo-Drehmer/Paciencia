@@ -14,7 +14,7 @@ let pilhasCartasComprarHTML = [];
 let pilhasCartasMostradasHTML = [];
 let pilhasOrdenadasControle = [];
 
-
+let elementoSelecionadoAnterior = undefined;
 
 await separarPilhas()
 
@@ -32,7 +32,8 @@ criandoNaips(["C", "H", "S", "D"]);
 pilhasCartasComprarHTML[0].addEventListener("click", comprarCarta);
 pilhasCartasComprarHTML[1].addEventListener("dblclick", enviarCartaPilhaOrdenadaComprar);
 addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
-// pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
+addEventListenerHTML(pilhasCartasMostradasHTML,"click", selecionarCarta);
+pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
 
 console.log(pilhasCartasOrdenadasHTML);
 console.log(pilhasCartaHTML);
@@ -80,7 +81,7 @@ function atualizarCartaTop(ArrayPilhasHTML, numPilha, index, ArrayPilhaCartas) {
         if (ArrayPilhaCartas === undefined) {
             ArrayPilhasHTML[numPilha].style.backgroundImage = `url(${urlCartaFundo})`;
         } else if (ArrayPilhaCartas[numPilha].length === 0) {
-            ArrayPilhasHTML[numPilha].style.backgroundImage = "url()"
+            ArrayPilhasHTML[numPilha].style.backgroundImage = `url("")`
         } else {
             ArrayPilhasHTML[numPilha].style.backgroundImage = `url(${ArrayPilhaCartas[numPilha][ArrayPilhaCartas[numPilha].length - 1].images.png})`;
         }
@@ -138,13 +139,14 @@ function enviarCartaPilhaOrdenadaPilhas() {
                         pilhasOrdenadasControle[y].addCarta(pilhasOrdenadasControle[y].valorAtual);
                         console.log(pilhasOrdenadasControle);
                         if (pilhasCartasMostradasHTML[index][0].children.length === 0) {
-                            pilhasCartasMostradasHTML[index][0].style.backgroundImage = `url()`;
+                            pilhasCartasMostradasHTML[index][0].style.backgroundImage = `url("")`;
                         } else {
                             pilhasCartasMostradasHTML[index][posX - 1].removeChild(this);
                             pilhasCartasMostradasHTML[index].pop();
                             console.log(pilhasCartasMostradasHTML);
                             pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
                             pilhasCartasMostradasHTML[index][pilhasCartasMostradasHTML[index].length - 1].addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
+                            pilhasCartasMostradasHTML[index][pilhasCartasMostradasHTML[index].length - 1].addEventListener("click", selecionarCarta);
                         }
                     }
                 }
@@ -176,8 +178,24 @@ function enviarCartaPilhaOrdenadaComprar() {
 
 function selecionarCarta() {
     if (this.style.backgroundImage !== "") {
-        this.classList.toggle("selecionado");
+        this.classList.add("selecionado");
+        if(elementoSelecionadoAnterior !== this){
+            for (let index = 0; index < pilhasCartasMostradasHTML.length; index++) 
+                {
+                
+            }
+        }
+
+
+
+        if(elementoSelecionadoAnterior != undefined && elementoSelecionadoAnterior !== this){
+            elementoSelecionadoAnterior.classList.remove("selecionado");
+        }
+        elementoSelecionadoAnterior = this;
     }
+
+
+
 }
 
 async function separarPilhas() {
