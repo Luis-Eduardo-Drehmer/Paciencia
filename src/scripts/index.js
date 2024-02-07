@@ -32,7 +32,7 @@ criandoNaips(["C", "H", "S", "D"]);
 pilhasCartasComprarHTML[0].addEventListener("click", comprarCarta);
 pilhasCartasComprarHTML[1].addEventListener("dblclick", enviarCartaPilhaOrdenadaComprar);
 addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
-addEventListenerHTML(pilhasCartasMostradasHTML,"click", selecionarCarta);
+addEventListenerHTML(pilhasCartasMostradasHTML, "click", selecionarCarta);
 pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
 
 console.log(pilhasCartasOrdenadasHTML);
@@ -131,6 +131,7 @@ function enviarCartaPilhaOrdenadaPilhas() {
                 return;
             }
             for (let y = 0; y < pilhasOrdenadasControle.length; y++) {
+
                 if (pilhasCartas[index][pilhasCartas[posX].length - 1].code[1] === pilhasOrdenadasControle[y].tipoCarta) {
                     if (pilhasCartas[index][pilhasCartas[posX].length - 1].code[0] === pilhasOrdenadasControle[y].valorAtual) {
                         pilhasCartasOrdenadasHTML[y].style.backgroundImage = `url(${pilhasCartas[index][posX].images.png})`;
@@ -138,6 +139,7 @@ function enviarCartaPilhaOrdenadaPilhas() {
                         console.log(pilhasCartas);
                         pilhasOrdenadasControle[y].addCarta(pilhasOrdenadasControle[y].valorAtual);
                         console.log(pilhasOrdenadasControle);
+                        elementoSelecionadoAnterior = undefined;
                         if (pilhasCartasMostradasHTML[index][0].children.length === 0) {
                             pilhasCartasMostradasHTML[index][0].style.backgroundImage = `url("")`;
                         } else {
@@ -148,6 +150,7 @@ function enviarCartaPilhaOrdenadaPilhas() {
                             pilhasCartasMostradasHTML[index][pilhasCartasMostradasHTML[index].length - 1].addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
                             pilhasCartasMostradasHTML[index][pilhasCartasMostradasHTML[index].length - 1].addEventListener("click", selecionarCarta);
                         }
+
                     }
                 }
             }
@@ -177,27 +180,130 @@ function enviarCartaPilhaOrdenadaComprar() {
 
 
 function selecionarCarta() {
+    this.classList.add("selecionado");
+    if (elementoSelecionadoAnterior === undefined) {
+        elementoSelecionadoAnterior = this;
+        console.log("a");
+        return;
+    }
     if (this.style.backgroundImage !== "") {
-        this.classList.add("selecionado");
-        if(elementoSelecionadoAnterior !== this){
-            for (let index = 0; index < pilhasCartasMostradasHTML.length; index++) 
-                {
-                
-            }
-        }
-
-
-
-        if(elementoSelecionadoAnterior != undefined && elementoSelecionadoAnterior !== this){
+        if (elementoSelecionadoAnterior !== this) {
             elementoSelecionadoAnterior.classList.remove("selecionado");
+            let posElementoAnterio = obterPosicaoCarta(pilhasCartasMostradasHTML, elementoSelecionadoAnterior);
+            let posElementoSelecionado = obterPosicaoCarta(pilhasCartasMostradasHTML, this);
+            let numeroCartasCombinadas = 0;
+            for (let index = posElementoAnterio[1] - 1; index > -1; index--) {
+                if (pilhasCartasMostradasHTML[posElementoAnterio[0]][index].style.backgroundImage === `url("https://deckofcardsapi.com/static/img/back.png")`) {
+                    break;
+                }
+                numeroCartasCombinadas++;
+            }
+            if (verificarNaipsCartas(posElementoAnterio, posElementoSelecionado)) {
+                if (verificarValorCarta(posElementoAnterio, posElementoSelecionado)) {
+                    this.appendChild(elementoSelecionadoAnterior);                    
+                    pilhasCartas[posElementoSelecionado[0]].push(pilhasCartas[posElementoAnterio[0]].pop());
+                    pilhasCartasMostradasHTML[posElementoSelecionado[0]].push(pilhasCartasMostradasHTML[posElementoAnterio[0]].pop());
+                    pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1].style.backgroundImage = `url(${pilhasCartas[posElementoAnterio[0]][posElementoAnterio[1] - 1].images.png})`;
+
+                    console.log(pilhasCartas);
+                    console.log(pilhasCartasMostradasHTML);
+
+
+                }
+            }
+
+
+
+
+
+
         }
+
+
+
         elementoSelecionadoAnterior = this;
     }
-
-
-
 }
 
+function obterPosicaoCarta(ArrayPilhasHTML, elemento) {
+    let pos = [];
+    for (let index = 0; index < ArrayPilhasHTML.length; index++) {
+        if (ArrayPilhasHTML[index][ArrayPilhasHTML[index].length - 1] === elemento) {
+            pos = [index, ArrayPilhasHTML[index].length - 1];
+        }
+    }
+    return pos;
+}
+function verificarNaipsCartas(carta1, carta2) {
+    let tipo1 = pilhasCartas[carta1[0]][carta1[1]].code[1];
+    let tipo2 = pilhasCartas[carta2[0]][carta2[1]].code[1];
+    switch (tipo1) {
+        case "D":
+        case "H":
+            if (tipo2 === "S" || tipo2 === "C") {
+                return true;
+            }
+            return false;
+        case "S":
+        case "C":
+            if (tipo2 === "D" || tipo2 === "H") {
+                return true;
+            }
+            return false;
+        default:
+            return false;
+    }
+}
+function verificarValorCarta(carta1, carta2) {
+    let valor1 = pilhasCartas[carta1[0]][carta1[1]].code[0];
+    let valor2 = pilhasCartas[carta2[0]][carta2[1]].code[0];
+    switch (valor1) {
+        case "A":
+            if (valor2 === "2") {
+                return true;
+            }
+            return false;
+        case "2":
+        case "3":
+        case "4":
+        case "5":
+        case "6":
+        case "7":
+        case "8":
+            valor1++;
+            if (valor1 == valor2) {
+                return true;
+            }
+            return false;
+        case "9":
+            if (valor2 === "0") {
+                return true;
+            }
+            return false;
+        case "0":
+            if (valor2 === "J") {
+                return true;
+            }
+            return false;
+        case "J":
+            if (valor2 === "Q") {
+                return true;
+            }
+            return false;
+        case "Q":
+            if (valor2 === "K") {
+                return true;
+            }
+            return false;
+        case "K":
+            if (valor2 === "") {
+                return true;
+            }
+            return false;
+        default:
+            return false;
+    }
+}
 async function separarPilhas() {
     let interacao = 1;
     let cartasRetiradasDeck;

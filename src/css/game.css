@@ -45,7 +45,7 @@
 
 .jogo .pilha-cartas .pilha-cartas-sequencia {
     position: absolute;
-    top: 20px;
+    top: 30px;
     opacity: 1;
     background-size: contain;
     border-radius: 5px;
