@@ -52,6 +52,10 @@
     width: 100%;
     height: 100%;
 }
+.jogo .pilha-cartas .pilha-cartas-sequencia.pirmeira-carta{
+    top:0;
+}
+
 .jogo .selecionado{
     
     box-shadow: 0px 0px 4px 5px goldenrod;
