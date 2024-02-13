@@ -148,9 +148,16 @@ function enviarCartaPilhaOrdenadaPilhas() {
                 return;
             }
             for (let y = 0; y < pilhasOrdenadasControle.length; y++) {
-                console.log(pilhasCartas[index]);
-                if (pilhasCartas[index][pilhasCartas[posX].length - 1].code[1] === pilhasOrdenadasControle[y].tipoCarta) {
-                    if (pilhasCartas[index][pilhasCartas[posX].length - 1].code[0] === pilhasOrdenadasControle[y].valorAtual) {
+                console.log(pilhasCartas);
+                console.log(pilhasCartasMostradasHTML);
+                console.log(index);
+                console.log(posX);
+                console.log(y);
+                console.log(pilhasCartas[index][posX]);
+                
+                if (pilhasCartas[index][posX].code[1] === pilhasOrdenadasControle[y].tipoCarta) {
+                    if (pilhasCartas[index][posX].code[0] === pilhasOrdenadasControle[y].valorAtual) {
+                        console.log("foi");
                         pilhasCartasOrdenadasHTML[y].style.backgroundImage = `url(${pilhasCartas[index][posX].images.png})`;
                         pilhasCartas[index].pop();
                         console.log(pilhasCartas);
@@ -169,6 +176,7 @@ function enviarCartaPilhaOrdenadaPilhas() {
                             pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
                             addEventos = index;
                         }
+                        break;
 
                     }
                 }
