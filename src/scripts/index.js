@@ -3,6 +3,10 @@ import { urlCartaFundo } from "./variaveis.js";
 
 import { pilha } from "./objects/pilhaCartaOrdenadas.js";
 
+const botaoReiniciarJogo = document.getElementById("botao-reniciar-jogo");
+botaoReiniciarJogo.addEventListener("click",reniciarJogo);
+
+
 let deck = [];
 let deckID = [];
 let cartasRestantes = [];
@@ -429,7 +433,19 @@ function verificaFimDeJogo() {
     }
 }
 
+function reniciarJogo() {
+    for (let index = 0; index < pilhasCartaHTML.length; index++) {
+        if (pilhasCartaHTML[index].children.length > 0) {
+            pilhasCartaHTML[index].removeChild(pilhasCartaHTML[index].children[0]);
+        }
+        pilhasCartaHTML[index].removeEventListener("click", selecionarCarta);
+        pilhasCartaHTML[index].removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
+    }
+    pilhasCartasComprarHTML[0].style.backgroundImage = "";
+    pilhasCartasComprarHTML[1].style.backgroundImage = "";
 
+    iniciarJogo();
+}
 
 
 
@@ -475,16 +491,6 @@ async function iniciarJogo() {
     addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
     addEventListenerHTML(pilhasCartasMostradasHTML, "click", selecionarCarta);
     pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
-
-
-
-    console.log(pilhasCartas);
-    console.log(pilhaCompra);
-    console.log(pilhasCartaHTML);
-    console.log(pilhasCartasOrdenadasHTML);
-    console.log(pilhasCartasComprarHTML);
-    console.log(pilhasCartasMostradasHTML);
-    console.log(pilhasOrdenadasControle);
 }
 
 async function separarPilhas() {

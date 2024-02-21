@@ -1,6 +1,6 @@
 .jogo {
     min-height: 100vh;
-    min-width: 1056px;
+    min-width: 1060px;
     max-width: 1500px;
     margin: auto;
     
@@ -59,4 +59,19 @@
 .jogo .selecionado{
     
     box-shadow: 0px 0px 4px 5px goldenrod;
+}
+
+.jogo .botao-reniciar-jogo{
+    color: white;
+    font-size: 1.5rem;
+    background-color: var(--cor-secundaria);
+    padding: 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.jogo .botao-reniciar-jogo:hover{
+    font-size: 1.8rem;
+    background-color: var(--cor-primaria);
 }
