@@ -38,28 +38,9 @@ addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrde
 addEventListenerHTML(pilhasCartasMostradasHTML, "click", selecionarCarta);
 pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
 
-
-console.log("pilhasCartasOrdenadasHTML");
-console.log(pilhasCartasOrdenadasHTML);
-console.log("pilhasCartaHTML");
-console.log(pilhasCartaHTML);
-console.log("pilhasCartasComprarHTML");
-console.log(pilhasCartasComprarHTML);
-console.log("pilhasCartas");
-console.log(pilhasCartas);
-console.log("pilhaCompra");
-console.log(pilhaCompra);
-console.log("pilhasCartasMostradasHTML");
-console.log(pilhasCartasMostradasHTML);
-console.log("pilhasOrdenadasControle");
-console.log(pilhasOrdenadasControle);
-
-
-
 function exibirCarta(ArrayPilhasHTML, ArrayPilhaCartas) {
     for (let index = 0; index < ArrayPilhasHTML.length; index++) {
         let elementosHtML = [];
-        //elementosHtML.push(ArrayPilhasHTML[index]);
         if (ArrayPilhaCartas[index].length >= 1) {
             let elemento;
             for (let i = 0; i <= ArrayPilhaCartas[index].length - 1; i++) {
@@ -67,18 +48,13 @@ function exibirCarta(ArrayPilhasHTML, ArrayPilhaCartas) {
                 elementoCarta.setAttribute("class", "pilha-cartas-sequencia");
                 if (i === 0) {
                     elementoCarta.classList.add("pirmeira-carta");
-
                 }
                 elementosHtML.push(elementoCarta);
                 if (i === 0) {
                     ArrayPilhasHTML[index].appendChild(elementoCarta);
-
-                    //pilhasCartaHTML[index].push(elementoCarta);
                     elemento = ArrayPilhasHTML[index].children[0];
-                    // ArrayPilhasHTML[index].style.backgroundImage = `url(${urlCartaFundo})`;
                 } else {
                     elemento.appendChild(elementoCarta);
-                    //pilhasCartaHTML[index].push(elementoCarta);
                     elemento.style.backgroundImage = `url(${urlCartaFundo})`;
                     elemento = elemento.children[0];
                 }
@@ -90,7 +66,6 @@ function exibirCarta(ArrayPilhasHTML, ArrayPilhaCartas) {
         }
         pilhasCartasMostradasHTML.push(elementosHtML);
     }
-
 }
 function atualizarCartaTop(ArrayPilhasHTML, numPilha, index, ArrayPilhaCartas) {
     if (index === undefined) {
@@ -105,7 +80,6 @@ function atualizarCartaTop(ArrayPilhasHTML, numPilha, index, ArrayPilhaCartas) {
         ArrayPilhasHTML[numPilha][index].style.backgroundImage = `url(${ArrayPilhaCartas[numPilha][ArrayPilhaCartas[numPilha].length - 1].images.png})`;
 
     }
-
 }
 function pegarPilhas(ArrayPilhasHTML, quantidade, stringID) {
     for (let index = 1; index < quantidade + 1; index++) {
@@ -159,11 +133,9 @@ function enviarCartaPilhaOrdenadaPilhas() {
                             pilhasCartaHTML[index].addEventListener("click", selecionarCarta);
                             pilhasCartaHTML[index].removeChild(this);
                             pilhasCartasMostradasHTML[index].pop();
-
                         } else {
                             pilhasCartasMostradasHTML[index][posX - 1].removeChild(this);
                             pilhasCartasMostradasHTML[index].pop();
-                            console.log(pilhasCartasMostradasHTML);
                             pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
                             addEventos = index;
                         }
@@ -175,12 +147,8 @@ function enviarCartaPilhaOrdenadaPilhas() {
         }
     }
     if (addEventos !== undefined && addEventos >= 0) {
-        console.log("ADD");
-        console.log(pilhasCartasMostradasHTML[addEventos][pilhasCartasMostradasHTML[addEventos].length - 1]);
-
         pilhasCartasMostradasHTML[addEventos][pilhasCartasMostradasHTML[addEventos].length - 1].addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
         pilhasCartasMostradasHTML[addEventos][pilhasCartasMostradasHTML[addEventos].length - 1].addEventListener("click", selecionarCarta);
-
     }
 }
 function enviarCartaPilhaOrdenadaComprar() {
@@ -203,12 +171,8 @@ function enviarCartaPilhaOrdenadaComprar() {
         }
     }
 }
-
-
-
 function selecionarCarta() {
     let moveuCarta = false;
-
     this.classList.add("selecionado");
     if (elementoSelecionadoAnterior === undefined) {
         elementoSelecionadoAnterior = this;
@@ -222,57 +186,42 @@ function selecionarCarta() {
         elementoSelecionadoAnterior = this;
         return;
     }
-    console.log(this.style.backgroundImage);
     if (this.style.backgroundImage !== "") {
         if (elementoSelecionadoAnterior !== this) {
             elementoSelecionadoAnterior.classList.remove("selecionado");
             let posElementoAnterio;
             let posElementoSelecionado = obterPosicaoCarta(pilhasCartasMostradasHTML, this);
-
             if (elementoSelecionadoAnterior === elementoComprarCarta) { //mudar de pilha compra para pilhas normal
                 if (pilhaCompra[1].length === 0) {
-                    console.log("asd");
                     elementoSelecionadoAnterior = this;
                     return;
                 }
-
                 posElementoAnterio = [1, pilhaCompra[1].length - 1];
-
                 if (verificarNaipsCartas(pilhaCompra, pilhasCartas, posElementoAnterio, posElementoSelecionado, 0)) {
                     if (verificarValorCarta(pilhaCompra, pilhasCartas, posElementoAnterio, posElementoSelecionado, 0)) {
                         moveuCarta = true;
-
                         let elementoCarta = document.createElement("div");
                         elementoCarta.setAttribute("class", "pilha-cartas-sequencia");
                         elementoCarta.style.backgroundImage = `url(${pilhaCompra[1][pilhaCompra[1].length - 1].images.png})`;
                         pilhasCartasMostradasHTML[posElementoSelecionado[0]].push(elementoCarta);
                         this.appendChild(elementoCarta);
-
                         pilhasCartas[posElementoSelecionado[0]].push(pilhaCompra[posElementoAnterio[0]].pop());
                         atualizarCartaTop(pilhasCartasComprarHTML, 1, undefined, pilhaCompra);
-
-
-
-
                         this.removeEventListener("click", selecionarCarta);
                         this.removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
                         elementoCarta.addEventListener("click", selecionarCarta);
                         elementoCarta.addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
-
-                        // elementoSelecionadoAnterior.classList.remove("selecionado");
                         this.classList.remove("selecionado");
-
-
                         elementoSelecionadoAnterior = undefined;
-                        console.log(pilhasCartas);
-                        console.log(pilhasCartasMostradasHTML);
-                        console.log(elementoSelecionadoAnterior);
                     }
                 }
 
             } else {//mudar de pilha normal para pilhas normal com cartas
                 posElementoAnterio = obterPosicaoCarta(pilhasCartasMostradasHTML, elementoSelecionadoAnterior);
-
+                if (posElementoAnterio.length === 0) {
+                    elementoSelecionadoAnterior = this;
+                    return;
+                }
                 let numeroCartasCombinadas = 0;
                 for (let index = posElementoAnterio[1] - 1; index > -1; index--) {
                     if (pilhasCartasMostradasHTML[posElementoAnterio[0]][index].style.backgroundImage === `url("https://deckofcardsapi.com/static/img/back.png")`) {
@@ -280,51 +229,32 @@ function selecionarCarta() {
                     }
                     numeroCartasCombinadas++;
                 }
-                console.log(numeroCartasCombinadas);
-                console.log(posElementoAnterio);
-                console.log(posElementoSelecionado);
-
-
                 if (verificarNaipsCartas(pilhasCartas, pilhasCartas, posElementoAnterio, posElementoSelecionado, numeroCartasCombinadas)) {
                     if (verificarValorCarta(pilhasCartas, pilhasCartas, posElementoAnterio, posElementoSelecionado, numeroCartasCombinadas)) {
                         moveuCarta = true;
-
                         this.appendChild(pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - numeroCartasCombinadas]);
-
-                        pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1]  - numeroCartasCombinadas].classList.remove("pirmeira-carta");
-
+                        pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - numeroCartasCombinadas].classList.remove("pirmeira-carta");
                         trocarPosicaoCartas(pilhasCartas, posElementoAnterio, posElementoSelecionado, numeroCartasCombinadas);
                         trocarPosicaoCartas(pilhasCartasMostradasHTML, posElementoAnterio, posElementoSelecionado, numeroCartasCombinadas);
-
                         if (pilhasCartasMostradasHTML[posElementoAnterio[0]].length > 0) {
                             pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].style.backgroundImage = `url(${pilhasCartas[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].images.png})`;
                             pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].addEventListener("click", selecionarCarta);
                             pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
-
                         } else {
                             pilhasCartaHTML[posElementoAnterio[0]].addEventListener("click", selecionarCarta);
                         }
-
                         this.removeEventListener("click", selecionarCarta);
                         this.removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
-
                         elementoSelecionadoAnterior.classList.remove("selecionado");
                         this.classList.remove("selecionado");
-
-                        console.log(pilhasCartas);
-                        console.log(pilhasCartasMostradasHTML);
-                        console.log(elementoSelecionadoAnterior);
                         elementoSelecionadoAnterior = undefined;
-
                     }
                 }
             }
         }
     } else {
-
         if (elementoSelecionadoAnterior === elementoComprarCarta) {//mudar de pilha compra para pilhas normal sem cartas
             if (pilhaCompra[1].length === 0) {
-                console.log("asd");
                 elementoSelecionadoAnterior = this;
                 return;
             }
@@ -336,55 +266,33 @@ function selecionarCarta() {
                 }
             }
             posElementoAnterio = [1, pilhaCompra[1].length - 1];
-
-            console.log(posElementoSelecionado);
-
-            console.log(pilhaCompra);
-
-            
             if (pilhaCompra[posElementoAnterio[0]][posElementoAnterio[1]].code[0] === "K") {
                 moveuCarta = true;
-                console.log("A")
 
                 let elementoCarta = document.createElement("div");
                 elementoCarta.setAttribute("class", "pilha-cartas-sequencia");
                 elementoCarta.style.backgroundImage = `url(${pilhaCompra[1][pilhaCompra[1].length - 1].images.png})`;
 
                 this.appendChild(elementoCarta);
-
-
                 pilhasCartasMostradasHTML[posElementoSelecionado[0]].push(elementoCarta);
-
                 pilhasCartas[posElementoSelecionado[0]].push(pilhaCompra[posElementoAnterio[0]].pop());
                 atualizarCartaTop(pilhasCartasComprarHTML, 1, undefined, pilhaCompra);
-
-
-
-
                 this.removeEventListener("click", selecionarCarta);
                 this.removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
                 elementoCarta.addEventListener("click", selecionarCarta);
                 elementoCarta.addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
                 elementoCarta.classList.add("pirmeira-carta");
-
                 elementoSelecionadoAnterior.classList.remove("selecionado");
-                
                 this.classList.remove("selecionado");
-
-
                 elementoSelecionadoAnterior = undefined;
-                console.log(pilhasCartas);
-                console.log(pilhasCartasMostradasHTML);
-                console.log(elementoSelecionadoAnterior);
             } else {
                 elementoSelecionadoAnterior.classList.remove("selecionado");
                 this.classList.remove("selecionado");
                 elementoSelecionadoAnterior === undefined;
                 moveuCarta = false;
             }
-            
         }
-        else{//mudar de pilha normal para pilhas normal sem cartas
+        else {//mudar de pilha normal para pilhas normal sem cartas
             let posElementoAnterio;
             posElementoAnterio = obterPosicaoCarta(pilhasCartasMostradasHTML, elementoSelecionadoAnterior);
             let posElementoSelecionado = [];
@@ -393,7 +301,6 @@ function selecionarCarta() {
                     posElementoSelecionado = [index, 0]
                 }
             }
-    
             let numeroCartasCombinadas = 0;
             for (let index = posElementoAnterio[1] - 1; index > -1; index--) {
                 if (pilhasCartasMostradasHTML[posElementoAnterio[0]][index].style.backgroundImage === `url("https://deckofcardsapi.com/static/img/back.png")`) {
@@ -401,41 +308,24 @@ function selecionarCarta() {
                 }
                 numeroCartasCombinadas++;
             }
-            console.log(posElementoSelecionado);
             if (pilhasCartas[posElementoAnterio[0]][posElementoAnterio[1] - numeroCartasCombinadas].code[0] === "K") {
-                console.log("a");
                 moveuCarta = true;
-    
                 this.appendChild(pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - numeroCartasCombinadas]);
                 pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - numeroCartasCombinadas].classList.add("pirmeira-carta");
-                pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].classList.remove("selecionado");
-    
-    
+                pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - numeroCartasCombinadas].classList.remove("selecionado");
                 trocarPosicaoCartas(pilhasCartas, posElementoAnterio, posElementoSelecionado, numeroCartasCombinadas);
                 trocarPosicaoCartas(pilhasCartasMostradasHTML, posElementoAnterio, posElementoSelecionado, numeroCartasCombinadas);
-    
-    
-    
-    
                 this.removeEventListener("click", selecionarCarta);
                 this.removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
-
-
                 elementoSelecionadoAnterior.classList.remove("selecionado");
                 this.classList.remove("selecionado");
                 if (pilhasCartasMostradasHTML[posElementoAnterio[0]].length > 0) {
                     pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].style.backgroundImage = `url(${pilhasCartas[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].images.png})`;
                     pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].addEventListener("click", selecionarCarta);
                     pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1 - numeroCartasCombinadas].addEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
-    
                 } else {
                     pilhasCartaHTML[posElementoAnterio[0]].addEventListener("click", selecionarCarta);
                 }
-    
-    
-                console.log(pilhasCartas);
-                console.log(pilhasCartasMostradasHTML);
-                console.log(elementoSelecionadoAnterior);
                 elementoSelecionadoAnterior = undefined;
             } else {
                 elementoSelecionadoAnterior.classList.remove("selecionado");
@@ -444,12 +334,9 @@ function selecionarCarta() {
                 moveuCarta = false;
             }
         }
-
-        
     }
     if (!moveuCarta) {
         elementoSelecionadoAnterior = this;
-        console.log("this");
     }
 }
 
@@ -532,7 +419,6 @@ function verificarValorCarta(arrayCartas1, arrayCartas2, carta1, carta2, quantid
             return false;
     }
 }
-
 function trocarPosicaoCartas(arrayCartas, posElementoAnterio, posElementoSelecionado, quantidadeCartas) {
     let arrayTemporario = [];
     for (let index = 0; index <= quantidadeCartas; index++) {
@@ -542,7 +428,6 @@ function trocarPosicaoCartas(arrayCartas, posElementoAnterio, posElementoSelecio
         arrayCartas[posElementoSelecionado[0]].push(arrayTemporario.pop());
     }
 }
-
 async function separarPilhas() {
     let interacao = 1;
     let cartasRetiradasDeck;
@@ -555,32 +440,4 @@ async function separarPilhas() {
     cartasRetiradasDeck = await getCard(deckID, cartasRestantes)
     pilhaCompra[0] = cartasRetiradasDeck.cards;
     pilhaCompra[1] = [];
-
 }
-
-
-
-// this.appendChild(elementoSelecionadoAnterior);
-// pilhasCartas[posElementoSelecionado[0]].push(pilhasCartas[posElementoAnterio[0]].pop());
-// pilhasCartasMostradasHTML[posElementoSelecionado[0]].push(pilhasCartasMostradasHTML[posElementoAnterio[0]].pop());
-// pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1].style.backgroundImage = `url(${pilhasCartas[posElementoAnterio[0]][posElementoAnterio[1] - 1].images.png})`;
-
-// this.removeEventListener("click", selecionarCarta);
-// this.removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
-// pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1].addEventListener("click",  selecionarCarta);
-// pilhasCartasMostradasHTML[posElementoAnterio[0]][posElementoAnterio[1] - 1].addEventListener( "dblclick", enviarCartaPilhaOrdenadaPilhas);
-
-// elementoSelecionadoAnterior.classList.remove("selecionado");
-// this.classList.remove("selecionado");
-
-// elementoSelecionadoAnterior = undefined;
-// console.log(pilhasCartas);
-// console.log(pilhasCartasMostradasHTML);
-// console.log(elementoSelecionadoAnterior);
-
-
-
-
-
-
-
