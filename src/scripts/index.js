@@ -3,9 +3,10 @@ import { urlCartaFundo } from "./variaveis.js";
 
 import { pilha } from "./objects/pilhaCartaOrdenadas.js";
 
-const deck = await getDeck();
-const deckID = deck.deck_id;
-let cartasRestantes = deck.remaining;
+let deck = [];
+let deckID = [];
+let cartasRestantes = [];
+let totalCartasEmJogo = [];
 let pilhasCartas = [];
 let pilhaCompra = [];
 let pilhasCartaHTML = [];
@@ -17,26 +18,11 @@ let pilhasOrdenadasControle = [];
 let elementoSelecionadoAnterior = undefined;
 let elementoComprarCarta;
 
-await separarPilhas()
+
+await iniciarJogo();
 
 
-pegarPilhas(pilhasCartaHTML, 7, "pilha");
-pegarPilhas(pilhasCartasOrdenadasHTML, 4, "pilha-ordenada");
-pegarPilhas(pilhasCartasComprarHTML, 2, "pilha-compra");
 
-elementoComprarCarta = pilhasCartasComprarHTML[1];
-
-exibirCarta(pilhasCartaHTML, pilhasCartas);
-
-atualizarCartaTop(pilhasCartasComprarHTML, 0);
-
-criandoNaips(["C", "H", "S", "D"]);
-
-pilhasCartasComprarHTML[0].addEventListener("click", comprarCarta);
-pilhasCartasComprarHTML[1].addEventListener("dblclick", enviarCartaPilhaOrdenadaComprar);
-addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
-addEventListenerHTML(pilhasCartasMostradasHTML, "click", selecionarCarta);
-pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
 
 function exibirCarta(ArrayPilhasHTML, ArrayPilhaCartas) {
     for (let index = 0; index < ArrayPilhasHTML.length; index++) {
@@ -139,6 +125,7 @@ function enviarCartaPilhaOrdenadaPilhas() {
                             pilhasCartasMostradasHTML[index][posX - 1].style.backgroundImage = `url(${pilhasCartas[index][posX - 1].images.png})`;
                             addEventos = index;
                         }
+                        verificaFimDeJogo();
                         break;
 
                     }
@@ -166,6 +153,7 @@ function enviarCartaPilhaOrdenadaComprar() {
                     pilhasCartasComprarHTML[1].style.backgroundImage = `url()`;
                 }
                 pilhasOrdenadasControle[y].addCarta(pilhasOrdenadasControle[y].valorAtual);
+                verificaFimDeJogo();
                 return;
             }
         }
@@ -428,6 +416,77 @@ function trocarPosicaoCartas(arrayCartas, posElementoAnterio, posElementoSelecio
         arrayCartas[posElementoSelecionado[0]].push(arrayTemporario.pop());
     }
 }
+function verificaFimDeJogo() {
+    totalCartasEmJogo--;
+    if (totalCartasEmJogo === 0) {
+        if (confirm("Parabéns!!! Você venceu. Deseja reiniciar o jogo?")) {
+            for (let index = 0; index < pilhasCartaHTML.length; index++) {
+                pilhasCartaHTML[index].removeEventListener("click", selecionarCarta);
+                pilhasCartaHTML[index].removeEventListener("dblclick", enviarCartaPilhaOrdenadaPilhas);
+            }
+            iniciarJogo();
+        }
+    }
+}
+
+
+
+
+
+
+async function iniciarJogo() {
+
+    deck = await getDeck();
+    deckID = deck.deck_id;
+    cartasRestantes = deck.remaining;
+    totalCartasEmJogo = 52;
+
+    pilhasCartas = [];
+    pilhaCompra = [];
+    pilhasCartaHTML = [];
+    pilhasCartasOrdenadasHTML = [];
+    pilhasCartasComprarHTML = [];
+    pilhasCartasMostradasHTML = [];
+    pilhasOrdenadasControle = [];
+
+    elementoSelecionadoAnterior = undefined;
+
+    await separarPilhas();
+
+
+    pegarPilhas(pilhasCartaHTML, 7, "pilha");
+    pegarPilhas(pilhasCartasOrdenadasHTML, 4, "pilha-ordenada");
+    pegarPilhas(pilhasCartasComprarHTML, 2, "pilha-compra");
+    for (let index = 0; index < pilhasCartasOrdenadasHTML.length; index++) {
+        pilhasCartasOrdenadasHTML[index].style.backgroundImage = `url("")`;
+    }
+
+
+    elementoComprarCarta = pilhasCartasComprarHTML[1];
+
+    exibirCarta(pilhasCartaHTML, pilhasCartas);
+
+    atualizarCartaTop(pilhasCartasComprarHTML, 0);
+
+    criandoNaips(["C", "H", "S", "D"]);
+
+    pilhasCartasComprarHTML[0].addEventListener("click", comprarCarta);
+    pilhasCartasComprarHTML[1].addEventListener("dblclick", enviarCartaPilhaOrdenadaComprar);
+    addEventListenerHTML(pilhasCartasMostradasHTML, "dblclick", enviarCartaPilhaOrdenadaPilhas);
+    addEventListenerHTML(pilhasCartasMostradasHTML, "click", selecionarCarta);
+    pilhasCartasComprarHTML[1].addEventListener("click", selecionarCarta);
+
+
+
+    console.log(pilhasCartas);
+    console.log(pilhaCompra);
+    console.log(pilhasCartaHTML);
+    console.log(pilhasCartasOrdenadasHTML);
+    console.log(pilhasCartasComprarHTML);
+    console.log(pilhasCartasMostradasHTML);
+    console.log(pilhasOrdenadasControle);
+}
+
 async function separarPilhas() {
     let interacao = 1;
     let cartasRetiradasDeck;
